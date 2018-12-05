@@ -203,6 +203,12 @@ public class FlutterBluePlugin implements MethodCallHandler, RequestPermissionsR
 
                 // New request, connect and add gattServer to Map
                 BluetoothGatt gattServer = device.connectGatt(registrar.activity(), options.getAndroidAutoConnect(), mGattCallback);
+
+                // improve MI phone connect speed. If didn't call connect,Mi phone can't connect success
+                if(options.getAndroidAutoConnect == false){
+                    gattServer.connect();
+                }
+                
                 mGattServers.put(deviceId, gattServer);
                 result.success(null);
                 break;
